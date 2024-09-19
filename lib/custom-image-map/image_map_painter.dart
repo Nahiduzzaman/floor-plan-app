@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
-class MapPainter extends CustomPainter {
+class ImageMapPainter extends CustomPainter {
   final ui.Image image;
   final double zoomLevel;
   final Offset centerOffset;
 
-  MapPainter(this.image, this.zoomLevel, this.centerOffset);
+  ImageMapPainter(this.image, this.zoomLevel, this.centerOffset);
 
   @override
   void paint(Canvas canvas, Size size) {

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'image_viewport.dart';
-import 'main.dart';
-import 'map_object.dart';
+import 'image_map_viewport.dart';
+import 'image_map_object.dart';
 
-class ZoomContainer extends StatefulWidget {
+class ImageMapZoomContainer extends StatefulWidget {
   final double zoomLevel;
   final ImageProvider imageProvider;
-  final List<MapObject> objects;
+  final List<ImageMapObject> objects;
 
-  const ZoomContainer({
+  const ImageMapZoomContainer({
     super.key,
     this.zoomLevel = 1,
     required this.imageProvider,
@@ -17,13 +16,13 @@ class ZoomContainer extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => ZoomContainerState();
+  State<StatefulWidget> createState() => ImageMapZoomContainerState();
 }
 
-class ZoomContainerState extends State<ZoomContainer> {
+class ImageMapZoomContainerState extends State<ImageMapZoomContainer> {
   late double _zoomLevel;
   late ImageProvider _imageProvider;
-  late List<MapObject> _objects;
+  late List<ImageMapObject> _objects;
 
   @override
   void initState() {
@@ -34,7 +33,7 @@ class ZoomContainerState extends State<ZoomContainer> {
   }
 
   @override
-  void didUpdateWidget(ZoomContainer oldWidget) {
+  void didUpdateWidget(ImageMapZoomContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.imageProvider != _imageProvider) _imageProvider = widget.imageProvider;
   }
@@ -43,7 +42,7 @@ class ZoomContainerState extends State<ZoomContainer> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        ImageViewport(
+        ImageMapViewport(
           zoomLevel: _zoomLevel,
           imageProvider: _imageProvider,
           objects: _objects,

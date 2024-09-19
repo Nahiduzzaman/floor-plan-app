@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'map_object.dart';
+import 'image_map_object.dart';
 import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'map_painter.dart';
+import 'image_map_painter.dart';
 
-class ImageViewport extends StatefulWidget {
+class ImageMapViewport extends StatefulWidget {
   final double zoomLevel;
   final ImageProvider imageProvider;
-  final List<MapObject>? objects;
+  final List<ImageMapObject>? objects;
 
-  ImageViewport({
+  ImageMapViewport({
     required this.zoomLevel,
     required this.imageProvider,
     this.objects,
   });
 
   @override
-  State<StatefulWidget> createState() => _ImageViewportState();
+  State<StatefulWidget> createState() => _ImageMapViewportState();
 }
 
-class _ImageViewportState extends State<ImageViewport> {
+class _ImageMapViewportState extends State<ImageMapViewport> {
   late double _zoomLevel;
   late ImageProvider _imageProvider;
   late ui.Image _image;
@@ -35,7 +34,7 @@ class _ImageViewportState extends State<ImageViewport> {
   late Size _viewportSize;
   late TransformationController transformationController;
 
-  List<MapObject>? _objects;
+  List<ImageMapObject>? _objects;
 
   double abs(double value) {
     return value < 0 ? value * (-1) : value;
@@ -74,7 +73,7 @@ class _ImageViewportState extends State<ImageViewport> {
   }
 
   @override
-  void didUpdateWidget(ImageViewport oldWidget) {
+  void didUpdateWidget(ImageMapViewport oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.imageProvider != _imageProvider) {
       _imageProvider = widget.imageProvider;
@@ -120,26 +119,26 @@ class _ImageViewportState extends State<ImageViewport> {
         });
     }
 
-    void addMapObject(MapObject object) => setState(() {
+    void addMapObject(ImageMapObject object) => setState(() {
           _objects?.add(object);
         });
 
-    void removeMapObject(MapObject object) => setState(() {
+    void removeMapObject(ImageMapObject object) => setState(() {
           _objects?.remove(object);
         });
 
     List<Widget> buildObjects() {
       return _objects!
           .map(
-            (MapObject object) => Positioned(
+            (ImageMapObject object) => Positioned(
               left: _globaltoLocalOffset(object.offset).dx -
                   (object.size == null ? 0 : (object.size!.width * _zoomLevel) / 2),
               top: _globaltoLocalOffset(object.offset).dy -
                   (object.size == null ? 0 : (object.size!.height * _zoomLevel) / 2),
               child: GestureDetector(
                 onTapUp: (TapUpDetails details) {
-                  MapObject? info;
-                  info = MapObject(
+                  ImageMapObject? info;
+                  info = ImageMapObject(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -222,7 +221,7 @@ class _ImageViewportState extends State<ImageViewport> {
                   RenderBox? box = context.findRenderObject() as RenderBox;
                   Offset localPosition = box.globalToLocal(details.globalPosition);
                   Offset newObjectOffset = _localToGlobalOffset(localPosition);
-                  MapObject newObject = MapObject(
+                  ImageMapObject newObject = ImageMapObject(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
@@ -245,7 +244,7 @@ class _ImageViewportState extends State<ImageViewport> {
                   children: <Widget>[
                         CustomPaint(
                           size: _viewportSize,
-                          painter: MapPainter(_image, _zoomLevel, _centerOffset),
+                          painter: ImageMapPainter(_image, _zoomLevel, _centerOffset),
                         ),
                       ] +
                       buildObjects(),
